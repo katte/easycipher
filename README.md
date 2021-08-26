@@ -1,7 +1,11 @@
 # easycipher
 Easy class for crypt and decrypt data and files, with many algorithm and no stress :)
 
-Supported algorithms are: 'aes_256_cbc', 'openssl_aes_256_cbc', 'salsa20' (default)
+Supported algorithms are: 
+* AES 256 CBC
+* openssl >= 1.1.0 AES 256 CBC 
+* openssl <  1.1.0 AES 256 CBC
+* Salsa20 (default)
 
 usage:
 > from easycipher import EasyCipher
@@ -18,7 +22,7 @@ there also have this APIs:
 
 API | Description
 --- | ---
-supported_algos() | List of supported algorithms. Actual: 
+supported_algos() | List of supported algorithms.<br />Actual: 'aes_256_cbc', 'openssl>=1.1.0_aes_256_cbc', 'openssl<1.1.0_aes_256_cbc', 'salsa20'
 encrypt(raw: bytes) -> Optional[bytes] | Encrypt a bytearray and return it in bytearray format
 encryptB64(raw: bytes) -> Optional[str] | Encrypt a bytearray and return it in base64 format
 encrypt_file(filein: str, fileout: str) -> bool | Encrypt a file and make a crypted file

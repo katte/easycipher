@@ -16,7 +16,7 @@ import_local_module('salsa20')
 
 
 class EasyCipher(object):
-    VERSION = '1.1.0'
+    VERSION = '1.2.0'
     AUTHOR = 'Marco Catellani (marco@catellanielettronica.it)'
     LAST_MODIFIED = '18/06/2021'
     MODIFIED_BY = 'Marco Catellani (marco@catellanielettronica.it)'
@@ -32,15 +32,18 @@ class EasyCipher(object):
 
     @staticmethod
     def supported_algos():
-        return ['aes_256_cbc', 'openssl_aes_256_cbc', 'salsa20']
+        return ['aes_256_cbc', 'openssl>=1.1.0_aes_256_cbc', 'openssl<1.1.0_aes_256_cbc', 'salsa20']
 
     def __init_crypto_obj(self):
         if self.__crypto_obj is None:
-            if self.algo == 'aes_256_cbc':
+            if self.algo.lower() == 'aes_256_cbc':
                 self.__crypto_obj = aes_256_cbc.aes_256_cbc(self.password)
-            elif self.algo == 'openssl_aes_256_cbc':
+            elif self.algo.lower() == 'openssl>=1.1.0_aes_256_cbc':
                 self.__crypto_obj = openssl___aes_256_cbc.openssl___aes_256_cbc(self.password)
-            elif self.algo == 'salsa20':
+            elif self.algo.lower() == 'openssl<1.1.0_aes_256_cbc':
+                self.__crypto_obj = openssl___aes_256_cbc.openssl___aes_256_cbc(self.password)
+                self.__crypto_obj.openssl_version_minor_of_1_1_0 = True
+            elif self.algo.lower() == 'salsa20':
                 self.__crypto_obj = salsa20.Salsa20(self.password)
 
     def get_key(self) -> Optional[bytes]:

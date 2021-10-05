@@ -1,25 +1,29 @@
 from typing import Union, Optional
 import base64
+
 import_mode = 'local'
-def import_local_module(module):
+def import_local_module(module, import_file=False):
     def try_or(func, default=None, expected_exc=(Exception,)):
         global import_mode
         try:
             exec(func, globals())
             import_mode = 'local'
-        except expected_exc:
+        except Exception as ex:
             if default is not None:
                 exec(default, globals())
                 import_mode = 'path'
-    try_or(f"from . {module} import {module}", default=f"import {module}")
+    if not import_file:
+        try_or(f"from . {module} import {module}", default=f"import {module}")
+    else:
+        try_or(f"from . import {module}", default=f"import {module}")
 
 import_local_module('aes_256_cbc')
 import_local_module('openssl___aes_256_cbc')
 import_local_module('salsa20')
+import_local_module('hashfunctions', True)
 
-
-class EasyCipher(object):
-    VERSION = '1.2.1'
+class EasyCipher:
+    VERSION = '1.3.0'
     AUTHOR = 'Marco Catellani (marco@catellanielettronica.it)'
     LAST_MODIFIED = '05/10/2021'
     MODIFIED_BY = 'Marco Catellani (marco@catellanielettronica.it)'
@@ -108,3 +112,26 @@ class EasyCipher(object):
         except:
             pass
         return False
+
+    @staticmethod
+    def supported_hash_algos():
+        return ['md5', 'sha256']
+
+    @staticmethod
+    def hash(raw: bytes, algo: str = 'sha256') -> Optional[bytes]:
+        if algo not in EasyCipher.supported_hash_algos():
+            return None
+        if algo == 'md5':
+            return hashfunctions.md5(raw)
+        elif algo == 'sha256':
+            return hashfunctions.sha256(raw)
+
+    @staticmethod
+    def hash_file(filein: str, algo: str = 'sha256') -> Optional[bytes]:
+        if algo not in EasyCipher.supported_hash_algos():
+            return None
+        if algo == 'md5':
+            return hashfunctions.md5_file(filein)
+        elif algo == 'sha256':
+            return hashfunctions.sha256_file(filein)
+

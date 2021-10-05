@@ -3,7 +3,7 @@ import nacl.utils
 import nacl.pwhash
 from typing import Optional
 
-class Salsa20(object):
+class salsa20(object):
     # https://authmane512.medium.com/how-to-securely-encrypt-data-in-python-with-nacl-library-591d847e5789
     def __init__(self, password: str):
         self.password = password.encode('utf-8')

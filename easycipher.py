@@ -1,14 +1,17 @@
 from typing import Union, Optional
 import base64
-
+import_mode = 'local'
 def import_local_module(module):
     def try_or(func, default=None, expected_exc=(Exception,)):
+        global import_mode
         try:
             exec(func, globals())
+            import_mode = 'local'
         except expected_exc:
             if default is not None:
                 exec(default, globals())
-    try_or(f"from . {module}", default=f"import {module}")
+                import_mode = 'path'
+    try_or(f"from . {module} import {module}", default=f"import {module}")
 
 import_local_module('aes_256_cbc')
 import_local_module('openssl___aes_256_cbc')
@@ -16,9 +19,9 @@ import_local_module('salsa20')
 
 
 class EasyCipher(object):
-    VERSION = '1.2.0'
+    VERSION = '1.2.1'
     AUTHOR = 'Marco Catellani (marco@catellanielettronica.it)'
-    LAST_MODIFIED = '18/06/2021'
+    LAST_MODIFIED = '05/10/2021'
     MODIFIED_BY = 'Marco Catellani (marco@catellanielettronica.it)'
     CHANGELOG = ''''''
     DESCRIPTION = ''''''
@@ -37,14 +40,18 @@ class EasyCipher(object):
     def __init_crypto_obj(self):
         if self.__crypto_obj is None:
             if self.algo.lower() == 'aes_256_cbc':
-                self.__crypto_obj = aes_256_cbc.aes_256_cbc(self.password)
+                pre = 'aes_256_cbc.' if import_mode == 'path' else ''
+                self.__crypto_obj = eval(f'{pre}aes_256_cbc(self.password)')
             elif self.algo.lower() == 'openssl>=1.1.0_aes_256_cbc':
-                self.__crypto_obj = openssl___aes_256_cbc.openssl___aes_256_cbc(self.password)
+                pre = 'openssl___aes_256_cbc.' if import_mode == 'path' else ''
+                self.__crypto_obj = eval(f'{pre}openssl___aes_256_cbc(self.password)')
             elif self.algo.lower() == 'openssl<1.1.0_aes_256_cbc':
-                self.__crypto_obj = openssl___aes_256_cbc.openssl___aes_256_cbc(self.password)
+                pre = 'openssl___aes_256_cbc.' if import_mode == 'path' else ''
+                self.__crypto_obj = eval(f'{pre}openssl___aes_256_cbc(self.password)')
                 self.__crypto_obj.openssl_version_minor_of_1_1_0 = True
             elif self.algo.lower() == 'salsa20':
-                self.__crypto_obj = salsa20.Salsa20(self.password)
+                pre = 'salsa20.' if import_mode == 'path' else ''
+                self.__crypto_obj = eval(f'{pre}salsa20(self.password)')
 
     def get_key(self) -> Optional[bytes]:
         try:

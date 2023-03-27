@@ -1,15 +1,25 @@
 from typing import Union, Optional
 import base64
-from . import aes_256_cbc
-from . import openssl___aes_256_cbc
-from . import salsa20
-from . import hashfunctions
+try:
+    from . import aes_256_cbc
+    from . import openssl___aes_256_cbc
+    from . import salsa20
+    from . import hashfunctions
+    from . import pkcs1_v1_5
+except:
+    import aes_256_cbc
+    import openssl___aes_256_cbc
+    import salsa20
+    import hashfunctions
+    import pkcs1_v1_5
+
+
 
 class EasyCipher:
-    VERSION = '1.3.1'
-    AUTHOR = 'Marco Catellani (marco@catellanielettronica.it)'
-    LAST_MODIFIED = '06/10/2021'
-    MODIFIED_BY = 'Marco Catellani (marco@catellanielettronica.it)'
+    VERSION = '1.4.0'
+    AUTHOR = 'Marco Catellani (katte82@gmail.com)'
+    LAST_MODIFIED = '27/03/2023'
+    MODIFIED_BY = 'Marco Catellani (katte82@gmail.com)'
     CHANGELOG = ''''''
     DESCRIPTION = ''''''
     
@@ -114,3 +124,18 @@ class EasyCipher:
         elif algo == 'sha256':
             return hashfunctions.sha256_file(filein)
 
+    @staticmethod
+    def supported_sign_algos():
+        return ['PKCS#1 v1.5']
+
+    @staticmethod
+    def generate_key_for_sign_algo():
+        return pkcs1_v1_5.generate_keys()
+    
+    @staticmethod
+    def get_message_signature(privkey: str, msg:bytes) -> bytes:
+        return pkcs1_v1_5.get_message_signature(privkey, msg)
+
+    @staticmethod
+    def verify_message(pubkey: str, msg:bytes, signature: str) -> bool:
+        return pkcs1_v1_5.verify_message(pubkey, msg, signature)

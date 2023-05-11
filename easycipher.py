@@ -16,9 +16,9 @@ except:
 
 
 class EasyCipher:
-    VERSION = '1.4.0'
+    VERSION = '1.4.1'
     AUTHOR = 'Marco Catellani (katte82@gmail.com)'
-    LAST_MODIFIED = '27/03/2023'
+    LAST_MODIFIED = '11/05/2023'
     MODIFIED_BY = 'Marco Catellani (katte82@gmail.com)'
     CHANGELOG = ''''''
     DESCRIPTION = ''''''
@@ -131,6 +131,10 @@ class EasyCipher:
     @staticmethod
     def generate_key_for_sign_algo():
         return pkcs1_v1_5.generate_keys()
+    
+    @staticmethod
+    def check_pubkey_with_privkey(pubkey: str, privkey: str) -> bool:
+        return pkcs1_v1_5.check_pubkey_with_privkey(pubkey, privkey)
     
     @staticmethod
     def get_message_signature(privkey: str, msg:bytes) -> bytes:

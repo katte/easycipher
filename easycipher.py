@@ -16,9 +16,9 @@ except:
 
 
 class EasyCipher:
-    VERSION = '1.4.1'
+    VERSION = '1.5.0'
     AUTHOR = 'Marco Catellani (katte82@gmail.com)'
-    LAST_MODIFIED = '11/05/2023'
+    LAST_MODIFIED = '15/06/2023'
     MODIFIED_BY = 'Marco Catellani (katte82@gmail.com)'
     CHANGELOG = ''''''
     DESCRIPTION = ''''''
@@ -107,22 +107,22 @@ class EasyCipher:
         return ['md5', 'sha256']
 
     @staticmethod
-    def hash(raw: bytes, algo: str = 'sha256') -> Optional[bytes]:
+    def hash(raw: bytes, algo: str = 'sha256', outputformat: str = 'bytes') -> Optional[Union[bytes, str]]:
         if algo not in EasyCipher.supported_hash_algos():
             return None
         if algo == 'md5':
-            return hashfunctions.md5(raw)
+            return hashfunctions.md5(raw, outputformat)
         elif algo == 'sha256':
-            return hashfunctions.sha256(raw)
+            return hashfunctions.sha256(raw, outputformat)
 
     @staticmethod
-    def hash_file(filein: str, algo: str = 'sha256') -> Optional[bytes]:
+    def hash_file(filein: str, algo: str = 'sha256', outputformat: str = 'bytes') -> Optional[Union[bytes, str]]:
         if algo not in EasyCipher.supported_hash_algos():
             return None
         if algo == 'md5':
-            return hashfunctions.md5_file(filein)
+            return hashfunctions.md5_file(filein, outputformat)
         elif algo == 'sha256':
-            return hashfunctions.sha256_file(filein)
+            return hashfunctions.sha256_file(filein, outputformat)
 
     @staticmethod
     def supported_sign_algos():

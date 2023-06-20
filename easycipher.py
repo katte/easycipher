@@ -16,7 +16,7 @@ except:
 
 
 class EasyCipher:
-    VERSION = '1.5.0'
+    VERSION = '1.5.1'
     AUTHOR = 'Marco Catellani (katte82@gmail.com)'
     LAST_MODIFIED = '15/06/2023'
     MODIFIED_BY = 'Marco Catellani (katte82@gmail.com)'

@@ -38,4 +38,4 @@ def sha256_file(filein: str, outputformat: str = 'bytes') -> Optional[Union[byte
         return convert_hash_bytes_to_hexstring(b)
 
 def convert_hash_bytes_to_hexstring(inb:Union[bytes, list]) -> str:
-    return ''.join([f'{x:x}' for x in inb])
+    return ''.join([f'{x:02X}' for x in inb])

@@ -9,9 +9,9 @@ Supported algorithms:
   * Salsa20 (default)
 * Hash of data and files:
   * MD5
-  * SHA256
+  * SHA256 (default)
 * Sign of data:
   * PKCS#1 V1.5
-  * RSASSA PSS
+  * RSASSA PSS (default)
 
 Check test.py for usages.

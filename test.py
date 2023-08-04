@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 import random
 import string
 import base64
-from easycipher import EasyCipher
+from __init__ import EasyCipher
 
 if __name__ == '__main__':
 

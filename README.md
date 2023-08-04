@@ -1,33 +1,17 @@
 # easycipher
-Easy class for crypt and decrypt data and files, with many algorithm and no stress :)
+Easy class for crypt, decrypt, hash, sign data and files, with many algorithm and no stress :)
 
-Supported algorithms are: 
-* AES 256 CBC
-* openssl >= 1.1.0 AES 256 CBC 
-* openssl <  1.1.0 AES 256 CBC
-* Salsa20 (default)
+Supported algorithms: 
+* Crypt / Decrypt of data and files:
+  * AES 256 CBC
+  * openssl >= 1.1.0 AES 256 CBC 
+  * openssl <  1.1.0 AES 256 CBC
+  * Salsa20 (default)
+* Hash of data and files:
+  * MD5
+  * SHA256
+* Sign of data:
+  * PKCS#1 V1.5
+  * RSASSA PSS
 
-usage:
-> from easycipher import EasyCipher
-> 
-> ec_enc = EasyCipher(password?'mySecretPassword', algo='aes_256_cbc')
->
-> message = b'My secret message'
-> 
-> encoded = ec_enc.encrypt(message)
-> 
-> original = ec_dec.decrypt(encoded)) 
-
-there also have this APIs:
-
-API | Description
---- | ---
-supported_algos() | List of supported algorithms.<br />Actual: 'aes_256_cbc', 'openssl>=1.1.0_aes_256_cbc', 'openssl<1.1.0_aes_256_cbc', 'salsa20'
-encrypt(raw: bytes) -> Optional[bytes] | Encrypt a bytearray and return it in bytearray format
-encryptB64(raw: bytes) -> Optional[str] | Encrypt a bytearray and return it in base64 format
-encrypt_file(filein: str, fileout: str) -> bool | Encrypt a file and make a crypted file
-decrypt(enc: bytes) -> Optional[bytes] | Decrypt a bytearray and return it in bytearray format
-decryptB64(enc: str) -> Optional[bytes] | Decrypt a base64 string and return it in bytearray format
-decrypt_file(filein: str, fileout: str) -> bool | Decrypt a file and make a decrypted file
-
-Check test.py for other usages.
+Check test.py for usages.

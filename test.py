@@ -10,8 +10,8 @@ from __init__ import EasyCipher
 if __name__ == '__main__':
 
     tests = [
-        # 'Crypt_simmetric', 
-        # 'Hash', 
+        'Crypt_simmetric', 
+        'Hash', 
         'Sign'
         ]
 

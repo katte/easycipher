@@ -18,7 +18,7 @@ except:
 
 
 class EasyCipher:
-    VERSION = '1.6.0'
+    VERSION = '1.6.1'
     AUTHOR = 'Marco Catellani (katte82@gmail.com)'
     LAST_MODIFIED = '04/08/2023'
     MODIFIED_BY = 'Marco Catellani (katte82@gmail.com)'
@@ -131,7 +131,7 @@ class EasyCipher:
         return ['pkcs#1_1.5', 'rsassa_pss']
 
     @staticmethod
-    def generate_key_for_sign_algo(algo: str = 'pkcs#1_1.5'):
+    def generate_key_for_sign_algo(algo: str = 'rsassa_pss'):
         if algo not in EasyCipher.supported_sign_algos():
             return None
         if algo == 'pkcs#1_1.5':
@@ -140,7 +140,7 @@ class EasyCipher:
             return rsassa_pss.generate_keys()
     
     @staticmethod
-    def check_pubkey_with_privkey(pubkey: str, privkey: str, algo: str = 'pkcs#1_1.5') -> bool:
+    def check_pubkey_with_privkey(pubkey: str, privkey: str, algo: str = 'rsassa_pss') -> bool:
         if algo not in EasyCipher.supported_sign_algos():
             return None
         if algo == 'pkcs#1_1.5':
@@ -149,7 +149,7 @@ class EasyCipher:
             return rsassa_pss.check_pubkey_with_privkey(pubkey, privkey)
     
     @staticmethod
-    def get_message_signature(privkey: str, msg:bytes, algo: str = 'pkcs#1_1.5') -> bytes:
+    def get_message_signature(privkey: str, msg:bytes, algo: str = 'rsassa_pss') -> bytes:
         if algo not in EasyCipher.supported_sign_algos():
             return None
         if algo == 'pkcs#1_1.5':
@@ -158,7 +158,7 @@ class EasyCipher:
             return rsassa_pss.get_message_signature(privkey, msg)
 
     @staticmethod
-    def verify_message(pubkey: str, msg:bytes, signature: str, algo: str = 'pkcs#1_1.5') -> bool:
+    def verify_message(pubkey: str, msg:bytes, signature: str, algo: str = 'rsassa_pss') -> bool:
         if algo not in EasyCipher.supported_sign_algos():
             return None
         if algo == 'pkcs#1_1.5':

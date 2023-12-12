@@ -5,6 +5,7 @@ try:
     from . import openssl___aes_256_cbc
     from . import salsa20
     from . import hashfunctions
+    from . import hashfunctions_for_directories
     from . import pkcs1_v1_5
     from . import rsassa_pss
 except:
@@ -12,15 +13,16 @@ except:
     import openssl___aes_256_cbc
     import salsa20
     import hashfunctions
+    import hashfunctions_for_directories
     import pkcs1_v1_5
     import rsassa_pss
 
 
 
 class EasyCipher:
-    VERSION = '1.6.1'
+    VERSION = '1.8.0'
     AUTHOR = 'Marco Catellani (katte82@gmail.com)'
-    LAST_MODIFIED = '04/08/2023'
+    LAST_MODIFIED = '11/12/2023'
     MODIFIED_BY = 'Marco Catellani (katte82@gmail.com)'
     CHANGELOG = ''''''
     DESCRIPTION = ''''''
@@ -106,7 +108,7 @@ class EasyCipher:
 
     @staticmethod
     def supported_hash_algos():
-        return ['md5', 'sha256']
+        return ['md5', 'sha1', 'sha256']
 
     @staticmethod
     def hash(raw: bytes, algo: str = 'sha256', outputformat: str = 'bytes') -> Optional[Union[bytes, str]]:
@@ -114,8 +116,10 @@ class EasyCipher:
             return None
         if algo == 'md5':
             return hashfunctions.md5(raw, outputformat)
+        elif algo == 'sha1':
+            return hashfunctions.sha(1, raw, outputformat)
         elif algo == 'sha256':
-            return hashfunctions.sha256(raw, outputformat)
+            return hashfunctions.sha(256, raw, outputformat)
 
     @staticmethod
     def hash_file(filein: str, algo: str = 'sha256', outputformat: str = 'bytes') -> Optional[Union[bytes, str]]:
@@ -123,8 +127,32 @@ class EasyCipher:
             return None
         if algo == 'md5':
             return hashfunctions.md5_file(filein, outputformat)
+        elif algo == 'sha1':
+            return hashfunctions.sha_file(1, filein, outputformat)
         elif algo == 'sha256':
-            return hashfunctions.sha256_file(filein, outputformat)
+            return hashfunctions.sha_file(256, filein, outputformat)
+
+    @staticmethod
+    def hash_directory(filein: str, algo: str = 'sha256', outputformat: str = 'bytes') -> Optional[Union[bytes, str]]:
+        if algo not in EasyCipher.supported_hash_algos():
+            return None
+        if algo == 'md5':
+            return hashfunctions_for_directories.md5_directory(filein, outputformat)
+        elif algo == 'sha1':
+            return hashfunctions_for_directories.sha_directory(1, filein, outputformat)
+        elif algo == 'sha256':
+            return hashfunctions_for_directories.sha_directory(256, filein, outputformat)
+
+    @staticmethod
+    def hash_directories(filein: str, algo: str = 'sha256', outputformat: str = 'bytes') -> Optional[Union[bytes, str]]:
+        if algo not in EasyCipher.supported_hash_algos():
+            return None
+        if algo == 'md5':
+            return hashfunctions_for_directories.md5_directories(filein, outputformat)
+        elif algo == 'sha1':
+            return hashfunctions_for_directories.sha_directories(1, filein, outputformat)
+        elif algo == 'sha256':
+            return hashfunctions_for_directories.sha_directories(256, filein, outputformat)
 
     @staticmethod
     def supported_sign_algos():

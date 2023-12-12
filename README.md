@@ -7,8 +7,9 @@ Supported algorithms:
   * openssl >= 1.1.0 AES 256 CBC 
   * openssl <  1.1.0 AES 256 CBC
   * Salsa20 (default)
-* Hash of data and files:
+* Hash of data, files and folders:
   * MD5
+  * SHA1
   * SHA256 (default)
 * Sign of data:
   * PKCS#1 V1.5

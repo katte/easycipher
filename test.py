@@ -12,6 +12,7 @@ if __name__ == '__main__':
     tests = [
         'Crypt_simmetric', 
         'Hash', 
+        'Hash_Directories', 
         'Sign'
         ]
 
@@ -70,6 +71,13 @@ if __name__ == '__main__':
             print(f'Bytearray: {enc}')
             print(f'Hex: {enc.hex(sep=" ")}')
             os.remove(infile)
+
+    if 'Hash_Directories' in tests:
+        for algo in EasyCipher.supported_hash_algos():
+            print(f'\n\n\n=== {algo} ===')
+            enc = EasyCipher.hash_directory('venv', algo)
+            print(f'Bytearray: {enc}')
+            print(f'Hex: {enc.hex(sep=" ")}')            
 
     if 'Sign' in tests:
         for algo in EasyCipher.supported_sign_algos():
